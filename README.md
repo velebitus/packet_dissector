@@ -32,40 +32,25 @@ The next step was to research my assumption.
 
 ## Research:
 
-   Ethernet Frame Header Format:
-   -------------------------------------------------------
-   1. Destination MAC Address: 6-bytes
-   2. Source MAC Address: 6-bytes 
-   3. Type: 2-bytes that represents protocol used. 
+- Ethernet frame header format:
+   
+1. Destination MAC Address: 6-bytes
+2. Source MAC Address: 6-bytes 
+3. Type: 2-bytes that represents protocol used. 
          08 00 - IPv4
          86 dd - IPv6
-   4. Data: variable 46 - 1500 bytes that contains 
+4. Data: variable 46 - 1500 bytes that contains 
       encapsulated data from higher layers
-   5. Frame Check Sequence (FCS): 4-bytes that are used to 
+5. Frame Check Sequence (FCS): 4-bytes that are used to 
       detect errors in frame
-   --------------------------------------------------------
+   
 
 From the Ethernet frame, we need to extract the destination and source MAC 
 addresses, which are the first 12 bytes.
 
+                
+   ![image](https://github.com/ivZalac98/packet_dissector/assets/98355693/d5dc9c33-60b2-41e8-8b58-31c302f17252)
 
-    0                   1                   2                   3
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |Version|  IHL  |Type of Service|          Total Length         |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |         Identification        |Flags|      Fragment Offset    |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |  Time to Live |    Protocol   |         Header Checksum       |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                       Source Address                          |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                    Destination Address                        |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                    Options                    |    Padding    |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
-                Figure: IPv4 header (each tick is 1 bit)
 
 To extract the source and destination addresses from the IPv4 header, we need 
 to look at the bytes in the range [12, 20] of the IPv4 header.
@@ -88,13 +73,12 @@ While writing the program, there were several things that I kept in mind:
 After writing the program, the last step was creating the makefile.
 
 I tested the program by creating binary files of frames, one with IP header
-options and one without. The files were redirected into stdin. File 
-without options is the example given in the assessment. File with options
+options and one without. The files were redirected into stdin. File with options
 has the same mac addresses as file without options.
 
 - Sources: 
 
-"Practical C Programming" by Steve Oualline
-https://www.rfc-editor.org/rfc/rfc791#section-3.2
-https://amgedwageh.medium.com/network-packet-manual-analysis-63e25f32ea54
-https://www.cs.miami.edu/home/burt/learning/Csc524.122/notes/networking-packet.html
+1. "Practical C Programming" by Steve Oualline
+2. https://www.rfc-editor.org/rfc/rfc791#section-3.2
+3. https://amgedwageh.medium.com/network-packet-manual-analysis-63e25f32ea54
+4. https://www.cs.miami.edu/home/burt/learning/Csc524.122/notes/networking-packet.html
